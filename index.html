@@ -3,25 +3,63 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>DevRatul Solar Clock</title>
+  <title>Sunset Aligned Clock</title>
   <style>
-    body {
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      background: linear-gradient(to top, #000428, #004e92);
+    }
+
+    body {
       font-family: 'Segoe UI', sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      color: white;
+      text-align: center;
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-      color: white;
-      text-align: center;
+      background: linear-gradient(to top, #001d3d, #003566);
+      animation: skyShift 30s ease-in-out infinite alternate;
+      position: relative;
+    }
+
+    @keyframes skyShift {
+      0% { background: linear-gradient(to top, #000428, #004e92); }
+      50% { background: linear-gradient(to top, #020024, #090979, #00d4ff); }
+      100% { background: linear-gradient(to top, #1e3c72, #2a5298); }
+    }
+
+    .stars {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0;
+      animation: twinkle 2s infinite;
+    }
+
+    @keyframes twinkle {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 1; }
     }
 
     h1 {
       font-size: 2rem;
       margin-bottom: 1rem;
+      z-index: 1;
     }
 
     #clock {
@@ -32,18 +70,21 @@
       padding: 1rem 2rem;
       border-radius: 1rem;
       box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+      z-index: 1;
     }
 
     #time-left {
       margin-top: 1rem;
       font-size: 1.2rem;
       color: #ffd700;
+      z-index: 1;
     }
 
     #status {
       margin-top: 0.5rem;
       font-size: 0.9rem;
       color: #ccc;
+      z-index: 1;
     }
 
     @media (max-width: 600px) {
@@ -54,7 +95,9 @@
   </style>
 </head>
 <body>
-  <h1>Sunset-Based Clock</h1>
+  <div class="stars" id="stars-container"></div>
+
+  <h1>Sunset-Based 24 Hour Clock</h1>
   <div id="clock">Loading...</div>
   <div id="time-left">Calculating time left...</div>
   <div id="status">Getting your location...</div>
@@ -81,12 +124,14 @@
       if (!sunsetTime) return;
 
       const now = new Date();
-      let sinceSunset = now - sunsetTime;
 
-      if (sinceSunset < 0) {
-        sinceSunset += 24 * 60 * 60 * 1000;
+      // Adjusted sunset for solar time
+      let adjustedSunset = new Date(sunsetTime);
+      if (now < sunsetTime) {
+        adjustedSunset.setDate(adjustedSunset.getDate() - 1);
       }
 
+      const sinceSunset = now - adjustedSunset;
       const solarSeconds = Math.floor(sinceSunset / 1000);
       const sh = Math.floor(solarSeconds / 3600) % 24;
       const sm = Math.floor((solarSeconds % 3600) / 60);
@@ -97,16 +142,19 @@
          ${String(sm).padStart(2, '0')}:
          ${String(ss).padStart(2, '0')}`;
 
-      // Calculate time left until next sunset
-      let nextSunset = new Date(sunsetTime.getTime() + 24 * 60 * 60 * 1000);
-      let timeLeft = nextSunset - now;
+      // Calculate time left for today only
+      const timeLeftMs = sunsetTime - now;
+      if (timeLeftMs > 0) {
+        const leftHours = Math.floor(timeLeftMs / 3600000);
+        const leftMinutes = Math.floor((timeLeftMs % 3600000) / 60000);
+        const leftSeconds = Math.floor((timeLeftMs % 60000) / 1000);
 
-      const leftHours = Math.floor(timeLeft / 3600000);
-      const leftMinutes = Math.floor((timeLeft % 3600000) / 60000);
-      const leftSeconds = Math.floor((timeLeft % 60000) / 1000);
-
-      document.getElementById("time-left").textContent =
-        `Time left until next sunset: ${leftHours}h ${leftMinutes}m ${leftSeconds}s`;
+        document.getElementById("time-left").textContent =
+          `Time left until sunset: ${leftHours}h ${leftMinutes}m ${leftSeconds}s`;
+      } else {
+        document.getElementById("time-left").textContent =
+          `Sunset has already occurred today.`;
+      }
     }
 
     function init() {
@@ -122,6 +170,20 @@
         );
       } else {
         document.getElementById("status").textContent = "Geolocation not supported.";
+      }
+
+      createStars(80);
+    }
+
+    function createStars(count) {
+      const container = document.getElementById('stars-container');
+      for (let i = 0; i < count; i++) {
+        const star = document.createElement('div');
+        star.classList.add('star');
+        star.style.top = Math.random() * 100 + '%';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.animationDuration = `${1 + Math.random() * 2}s`;
+        container.appendChild(star);
       }
     }
 
