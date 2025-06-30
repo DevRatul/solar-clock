@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sunset Aligned Clock by devRatul</title>
+  <title>DevRatul Sunset Clock</title>
   <style>
     body {
       margin: 0;
       padding: 0;
       background: linear-gradient(to top, #000428, #004e92);
-      font-family: 'Segoe UI', sans-serif;
+      font-family: 'Luckiest Guy', sans-serif;
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -34,8 +34,14 @@
       box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
     }
 
-    #status {
+    #time-left {
       margin-top: 1rem;
+      font-size: 1.2rem;
+      color: #ffd700;
+    }
+
+    #status {
+      margin-top: 0.5rem;
       font-size: 0.9rem;
       color: #ccc;
     }
@@ -43,12 +49,14 @@
     @media (max-width: 600px) {
       h1 { font-size: 1.5rem; }
       #clock { font-size: 2.5rem; padding: 1rem; }
+      #time-left { font-size: 1rem; }
     }
   </style>
 </head>
 <body>
   <h1>Sunset-Based Clock</h1>
   <div id="clock">Loading...</div>
+  <div id="time-left">Calculating time left...</div>
   <div id="status">Getting your location...</div>
 
   <script>
@@ -60,7 +68,7 @@
         .then(response => response.json())
         .then(data => {
           sunsetTime = new Date(data.results.sunset);
-          document.getElementById("status").textContent = "Sunset time detected: " + sunsetTime.toLocaleTimeString();
+          document.getElementById("status").textContent = "Sunset time: " + sunsetTime.toLocaleTimeString();
           updateClock();
           setInterval(updateClock, 1000);
         })
@@ -73,21 +81,32 @@
       if (!sunsetTime) return;
 
       const now = new Date();
-      let diff = now - sunsetTime;
+      let sinceSunset = now - sunsetTime;
 
-      if (diff < 0) {
-        diff += 24 * 60 * 60 * 1000; // wrap to next day
+      if (sinceSunset < 0) {
+        sinceSunset += 24 * 60 * 60 * 1000;
       }
 
-      const totalSeconds = Math.floor(diff / 1000);
-      const hours = Math.floor(totalSeconds / 3600) % 24;
-      const minutes = Math.floor((totalSeconds % 3600) / 60);
-      const seconds = totalSeconds % 60;
+      const solarSeconds = Math.floor(sinceSunset / 1000);
+      const sh = Math.floor(solarSeconds / 3600) % 24;
+      const sm = Math.floor((solarSeconds % 3600) / 60);
+      const ss = solarSeconds % 60;
 
       document.getElementById("clock").textContent =
-        `${String(hours).padStart(2, '0')}:
-         ${String(minutes).padStart(2, '0')}:
-         ${String(seconds).padStart(2, '0')}`;
+        `${String(sh).padStart(2, '0')}:
+         ${String(sm).padStart(2, '0')}:
+         ${String(ss).padStart(2, '0')}`;
+
+      // Calculate time left until next sunset
+      let nextSunset = new Date(sunsetTime.getTime() + 24 * 60 * 60 * 1000);
+      let timeLeft = nextSunset - now;
+
+      const leftHours = Math.floor(timeLeft / 3600000);
+      const leftMinutes = Math.floor((timeLeft % 3600000) / 60000);
+      const leftSeconds = Math.floor((timeLeft % 60000) / 1000);
+
+      document.getElementById("time-left").textContent =
+        `Time left until next sunset: ${leftHours}h ${leftMinutes}m ${leftSeconds}s`;
     }
 
     function init() {
@@ -97,7 +116,7 @@
             const { latitude, longitude } = position.coords;
             fetchSunsetTime(latitude, longitude);
           },
-          error => {
+          () => {
             document.getElementById("status").textContent = "Location access denied.";
           }
         );
