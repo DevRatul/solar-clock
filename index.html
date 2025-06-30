@@ -21,15 +21,8 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      background: linear-gradient(to top, #001d3d, #003566);
-      animation: skyShift 30s ease-in-out infinite alternate;
+      background: linear-gradient(to top, #001d3d, #003566); /* Fixed background */
       position: relative;
-    }
-
-    @keyframes skyShift {
-      0% { background: linear-gradient(to top, #000428, #004e92); }
-      50% { background: linear-gradient(to top, #020024, #090979, #00d4ff); }
-      100% { background: linear-gradient(to top, #1e3c72, #2a5298); }
     }
 
     .stars {
@@ -142,7 +135,7 @@
          ${String(sm).padStart(2, '0')}:
          ${String(ss).padStart(2, '0')}`;
 
-      // Calculate time left for today only
+      // Time left until today’s sunset
       const timeLeftMs = sunsetTime - now;
       if (timeLeftMs > 0) {
         const leftHours = Math.floor(timeLeftMs / 3600000);
