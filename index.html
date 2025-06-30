@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sunset Aligned Clock</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to top, #000428, #004e92);
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: white;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    #clock {
+      font-size: 4rem;
+      font-weight: bold;
+      letter-spacing: 0.1rem;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 1rem 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    }
+
+    #status {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: #ccc;
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 1.5rem; }
+      #clock { font-size: 2.5rem; padding: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Sunset-Based 24 Hour Clock</h1>
+  <div id="clock">Loading...</div>
+  <div id="status">Getting your location...</div>
+
+  <script>
+    let sunsetTime = null;
+
+    function fetchSunsetTime(lat, lng) {
+      const apiUrl = `https://api.sunrise-sunset.org/json?lat=${lat}&lng=${lng}&formatted=0`;
+      fetch(apiUrl)
+        .then(response => response.json())
+        .then(data => {
+          sunsetTime = new Date(data.results.sunset);
+          document.getElementById("status").textContent = "Sunset time detected: " + sunsetTime.toLocaleTimeString();
+          updateClock();
+          setInterval(updateClock, 1000);
+        })
+        .catch(() => {
+          document.getElementById("status").textContent = "Failed to load sunset time.";
+        });
+    }
+
+    function updateClock() {
+      if (!sunsetTime) return;
+
+      const now = new Date();
+      let diff = now - sunsetTime;
+
+      if (diff < 0) {
+        diff += 24 * 60 * 60 * 1000; // wrap to next day
+      }
+
+      const totalSeconds = Math.floor(diff / 1000);
+      const hours = Math.floor(totalSeconds / 3600) % 24;
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
+
+      document.getElementById("clock").textContent =
+        `${String(hours).padStart(2, '0')}:
+         ${String(minutes).padStart(2, '0')}:
+         ${String(seconds).padStart(2, '0')}`;
+    }
+
+    function init() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          position => {
+            const { latitude, longitude } = position.coords;
+            fetchSunsetTime(latitude, longitude);
+          },
+          error => {
+            document.getElementById("status").textContent = "Location access denied.";
+          }
+        );
+      } else {
+        document.getElementById("status").textContent = "Geolocation not supported.";
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>
