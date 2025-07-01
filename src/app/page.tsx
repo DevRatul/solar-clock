@@ -193,7 +193,7 @@ export default function SunsetClock() {
       {/* Time Left */}
       <div
         id="time-left"
-        className="mt-4 text-lg md:text-xl z-10 text-center font-semibold text-[#ff5c00]"
+        className="mt-2 text-lg md:text-2xl z-10 text-center font-semibold text-[#ff5c00]"
       >
         {timeLeftText}
       </div>
@@ -207,7 +207,7 @@ export default function SunsetClock() {
       >
         {statusMessage.startsWith("Sunset Time:") ? (
           <>
-            <span className="text-orange-400">Sunset Time:</span>
+            <span className="text-gray-100">Sunset Time:</span>
             {statusMessage.replace("Sunset Time:", "")}
           </>
         ) : (
