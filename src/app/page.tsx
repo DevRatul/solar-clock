@@ -162,7 +162,7 @@ export default function SunsetClock() {
 
       {/* Location */}
       <div
-        className={`absolute bottom-4 left-4 z-20 text-sm ${
+        className={`absolute bottom-4 center-4 z-20 text-sm ${
           mode === "night" ? "text-gray-200" : "text-gray-700"
         }`}
       >
