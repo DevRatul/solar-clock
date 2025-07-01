@@ -52,8 +52,8 @@ export default function SunsetClock() {
       const ls = Math.floor((timeLeftMs % 60_000) / 1000);
 
       setTimeLeftText(`Sunset in: ${lh}h ${lm}m ${ls}s`);
-       // ⭐️ এখানে টাইম ট্যাবে দেখাবে:
-  // document.title = `Sunset in: ${lh}h ${lm}m ${ls}s`;
+      // ⭐️ এখানে টাইম ট্যাবে দেখাবে:
+      // document.title = `Sunset in: ${lh}h ${lm}m ${ls}s`;
     };
 
     const fetchSunsetTime = (lat: number, lng: number) => {
@@ -162,7 +162,7 @@ export default function SunsetClock() {
 
       {/* Location */}
       <div
-        className={`absolute bottom-4 center-4 z-20 text-sm ${
+        className={`absolute bottom-4 center-4 text-sm ${
           mode === "night" ? "text-gray-200" : "text-gray-700"
         }`}
       >
@@ -207,7 +207,7 @@ export default function SunsetClock() {
       >
         {statusMessage.startsWith("Sunset Time:") ? (
           <>
-            <span className="text-gray-100">Sunset Time:</span>
+            <span className="text-gray-100 text-sm">Sunset Time:</span>
             {statusMessage.replace("Sunset Time:", "")}
           </>
         ) : (
