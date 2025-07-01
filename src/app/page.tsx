@@ -162,7 +162,7 @@ export default function SunsetClock() {
 
       {/* Location */}
       <div
-        className={`absolute bottom-4 center-4 text-sm ${
+        className={`absolute bottom-2 right-4 text-sm ${
           mode === "night" ? "text-gray-200" : "text-gray-700"
         }`}
       >
@@ -171,7 +171,7 @@ export default function SunsetClock() {
 
       {/* Title */}
       <h1
-        className={`text-4xl md:text-5xl font-extrabold z-10 mb-6 text-center tracking-tight drop-shadow-xl ${
+        className={`text-4xl md:text-5xl font-extrabold z-10 translate-y-[-300%]  text-center tracking-tight drop-shadow-xl ${
           mode === "night"
             ? "bg-gradient-to-r from-[#b8fdfd] to-[#03dbfc] bg-clip-text text-transparent"
             : "bg-gradient-to-r from-[#031919] to-[#02889c] bg-clip-text text-transparent"
@@ -179,23 +179,24 @@ export default function SunsetClock() {
       >
         DevRatul Solar Clock
       </h1>
+      <div className="static  inset-0 ">
+        {/* Clock */}
+        <div
+          id="clock"
+          className={`text-6xl md:text-7xl font-bold tracking-widest  px-8 py-4 rounded-3xl backdrop-blur-lg shadow-2xl z-10 text-center border border-white/10 ${
+            mode === "night" ? "text-gray-100" : "text-gray-950"
+          }`}
+        >
+          {clockText}
+        </div>
 
-      {/* Clock */}
-      <div
-        id="clock"
-        className={`text-6xl md:text-7xl font-bold tracking-widest mt-8 px-8 py-4 rounded-3xl backdrop-blur-lg shadow-2xl z-10 text-center border border-white/10 ${
-          mode === "night" ? "text-gray-100" : "text-gray-950"
-        }`}
-      >
-        {clockText}
-      </div>
-
-      {/* Time Left */}
-      <div
-        id="time-left"
-        className="mt-2 text-lg md:text-2xl z-10 text-center font-semibold text-[#ff5c00]"
-      >
-        {timeLeftText}
+        {/* Time Left */}
+        <div
+          id="time-left"
+          className="mt-2 text-lg md:text-2xl z-10 text-center font-semibold text-[#ff5c00]"
+        >
+          {timeLeftText}
+        </div>
       </div>
 
       {/* Status */}
@@ -207,7 +208,13 @@ export default function SunsetClock() {
       >
         {statusMessage.startsWith("Sunset Time:") ? (
           <>
-            <span className="text-gray-100 text-sm">Sunset Time:</span>
+            <span
+              className={`text-gray-100 text-sm ${
+                mode === "night" ? "text-gray-100" : "text-gray-950"
+              }`}
+            >
+              Sunset Time:
+            </span>
             {statusMessage.replace("Sunset Time:", "")}
           </>
         ) : (
