@@ -171,7 +171,7 @@ export default function SunsetClock() {
 
       {/* Title */}
       <h1
-        className={`text-4xl md:text-5xl font-extrabold z-10 translate-y-[-300%]  text-center tracking-tight drop-shadow-xl ${
+        className={`text-4xl md:text-5xl font-extrabold z-10 translate-y-[-300%]  text-center tracking-tight drop-shadow-xl  mx-2 ${
           mode === "night"
             ? "bg-gradient-to-r from-[#b8fdfd] to-[#03dbfc] bg-clip-text text-transparent"
             : "bg-gradient-to-r from-[#031919] to-[#02889c] bg-clip-text text-transparent"
@@ -179,7 +179,7 @@ export default function SunsetClock() {
       >
         DevRatul Solar Clock
       </h1>
-      <div className="static  inset-0 ">
+      <div className="static  inset-0 mx-2">
         {/* Clock */}
         <div
           id="clock"

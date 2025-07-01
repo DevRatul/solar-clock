@@ -201,7 +201,7 @@ function SunsetClock() {
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                className: "jsx-f11385f68df89821" + " " + `text-4xl md:text-5xl font-extrabold z-10 translate-y-[-300%]  text-center tracking-tight drop-shadow-xl ${mode === "night" ? "bg-gradient-to-r from-[#b8fdfd] to-[#03dbfc] bg-clip-text text-transparent" : "bg-gradient-to-r from-[#031919] to-[#02889c] bg-clip-text text-transparent"}`,
+                className: "jsx-f11385f68df89821" + " " + `text-4xl md:text-5xl font-extrabold z-10 translate-y-[-300%]  text-center tracking-tight drop-shadow-xl  mx-2 ${mode === "night" ? "bg-gradient-to-r from-[#b8fdfd] to-[#03dbfc] bg-clip-text text-transparent" : "bg-gradient-to-r from-[#031919] to-[#02889c] bg-clip-text text-transparent"}`,
                 children: "DevRatul Solar Clock"
             }, void 0, false, {
                 fileName: "[project]/src/app/page.tsx",
@@ -209,7 +209,7 @@ function SunsetClock() {
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                className: "jsx-f11385f68df89821" + " " + "static  inset-0 ",
+                className: "jsx-f11385f68df89821" + " " + "static  inset-0 mx-2",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         id: "clock",
