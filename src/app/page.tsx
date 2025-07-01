@@ -132,7 +132,7 @@ export default function SunsetClock() {
       />
 
       {/* Mode Selector */}
-      <div className="absolute top-4 right-4 z-20">
+      <div className="absolute top-2 right-4 z-20">
         <select
           value={mode}
           onChange={(e) => setMode(e.target.value as Mode)}
@@ -148,7 +148,7 @@ export default function SunsetClock() {
       </div>
 
       {/* Real Clock */}
-      <div className="absolute top-4 right-32 z-20">
+      <div className="absolute top-2 right-32 z-20">
         <div
           className={`text-sm rounded-md px-3 py-1 shadow backdrop-blur-md ${
             mode === "night"
@@ -183,7 +183,7 @@ export default function SunsetClock() {
       {/* Clock */}
       <div
         id="clock"
-        className={`text-6xl md:text-7xl font-bold tracking-widest px-8 py-4 rounded-3xl backdrop-blur-lg shadow-2xl z-10 text-center border border-white/10 ${
+        className={`text-6xl md:text-7xl font-bold tracking-widest mt-4 px-8 py-4 rounded-3xl backdrop-blur-lg shadow-2xl z-10 text-center border border-white/10 ${
           mode === "night" ? "text-gray-100" : "text-gray-950"
         }`}
       >
